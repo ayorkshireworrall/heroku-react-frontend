@@ -1,23 +1,38 @@
-import logo from './logo.svg';
+import { useCallback, useEffect } from 'react';
 import './App.css';
+import { useSelector, useDispatch } from 'react-redux'
+import * as actions from './store/actions';
+import { Config } from './config'
 
 function App() {
+  
+  const isLoading = useSelector(state => state.messages.loading)
+  const messages = useSelector(state => state.messages.messages)
+  const error = useSelector(state => state.messages.error)
+
+  const dispatch = useDispatch();
+  const onInitMessages = useCallback(() => dispatch(actions.getMessages()), [dispatch]);
+
+  useEffect(() => {
+    onInitMessages();
+  }, [onInitMessages])
+  
+  let display = error ? (
+    <p>Error loading messages</p>
+  ) : 
+  (
+    <ul>
+      {messages.map(m => {
+        return <li>m.message</li>
+      })}
+    </ul>
+  )
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Basic CRUD APP App</h1>
+      <h2>Existing Messages</h2>
+      {isLoading ? (<p>Loading</p>) : display}
     </div>
   );
 }
