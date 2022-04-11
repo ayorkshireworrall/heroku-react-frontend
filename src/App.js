@@ -13,6 +13,8 @@ function App() {
   const dispatch = useDispatch();
   const onInitMessages = useCallback(() => dispatch(actions.getMessages()), [dispatch]);
 
+  console.log('configuration: ', Config)
+
   useEffect(() => {
     onInitMessages();
   }, [onInitMessages])
