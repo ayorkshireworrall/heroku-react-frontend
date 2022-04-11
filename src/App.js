@@ -25,7 +25,7 @@ function App() {
   (
     <ul>
       {messages.map(m => {
-        return <li>m.message</li>
+        return <li>{m.message}</li>
       })}
     </ul>
   )
